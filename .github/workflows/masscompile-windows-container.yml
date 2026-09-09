@@ -1,5 +1,8 @@
 name: MassCompile - Windows Container
 
+env:
+  docker_image: nationalinstruments/labview:2026q3-windows
+  
 on:
   pull_request:
     types:
@@ -22,12 +25,12 @@ jobs:
 
       - name: Pull LabVIEW container image
         #run: docker pull nationalinstruments/labview:latest-windows
-        run: docker pull nationalinstruments/labview:2026q3-windows
+        run: docker pull $docker_image
 
       - name: Run LabVIEWCLI MassCompile
         run: >
           docker run --rm
           -v "${{ github.workspace }}:C:\workspace"
-          nationalinstruments/labview:latest-windows
+          $docker_image
           LabVIEWCLI -LogToConsole TRUE -OperationName MassCompile
           -DirectoryToCompile "C:\workspace\examples\cicd-examples\Test-VIs" -Headless

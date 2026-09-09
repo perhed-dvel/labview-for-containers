@@ -1,5 +1,8 @@
 name: Run VI Analyzer - Windows Container
 
+env:
+  docker_image: nationalinstruments/labview:2026q3-windows
+  
 on:
   pull_request:
     types:
@@ -22,13 +25,13 @@ jobs:
 
       - name: Pull LabVIEW container image
         #run: docker pull nationalinstruments/labview:latest-windows
-        run: docker pull nationalinstruments/labview:2026q3-windows
+        run: docker pull $docker_image
 
       - name: Run VI Analyzer tests
         run: >
           docker run --rm
           -v "${{ github.workspace }}:C:\workspace"
-          nationalinstruments/labview:latest-windows
+          $docker_image
           powershell -File "C:\workspace\examples\cicd-examples\helper-scripts\run-vi-analyzer\run-vi-analyzer.ps1" -WorkspaceRoot "C:\workspace"
 
       - name: Upload VI Analyzer report
