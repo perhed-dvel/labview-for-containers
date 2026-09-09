@@ -9,10 +9,13 @@ on:
     paths:
       - 'examples/cicd-examples/Test-VIs/**'
       - 'examples/cicd-examples/helper-scripts/**'
+      
+  workflow_dispatch:
 
 jobs:
   masscompile-windows:
-    runs-on: windows-latest
+    #runs-on: windows-latest
+    runs-on: [self-hosted, windows, x64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
